@@ -220,7 +220,7 @@ const CHARS=[
   {name:"Foo Fighters",part:6,stand:true,standName:"Foo Fighters",standType:"Colony",nationality:"Other",role:"Ally",hair:"Green",img:null,emoji:"🦠"},
   {name:"Enrico Pucci",part:6,stand:true,standName:"Whitesnake",standType:"Close-Range",nationality:"American",role:"Villain",hair:"Black",img:null,emoji:"🌀"},
   {name:"Johnny Joestar",part:7,stand:true,standName:"Tusk",standType:"Long-Range",nationality:"American",role:"Protagonist",hair:"Blond",img:null,emoji:"🌀"},
-  {name:"Gyro Zeppeli",part:7,stand:true,standName:"Ball Breaker",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Blond",img:"images/Gyro.webp",emoji:"🎱"},
+  {name:"Gyro Zeppeli",part:7,stand:true,standName:"Ball Breaker",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Blond",img:null,emoji:"🎱"},
   {name:"Diego Brando",part:7,stand:true,standName:"Scary Monsters",standType:"Bound",nationality:"British",role:"Villain",hair:"Blond",img:null,emoji:"🦕"},
   {name:"Funny Valentine",part:7,stand:true,standName:"Dirty Deeds Done Dirt Cheap",standType:"Close-Range",nationality:"American",role:"Villain",hair:"Blond",img:null,emoji:"🇺🇸"},
   {name:"Gappy (Josuke)",part:8,stand:true,standName:"Soft & Wet",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:null,emoji:"🫧"},
