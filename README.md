@@ -1,4 +1,4 @@
-HerosFIVE<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -383,7 +383,7 @@ function revealShare(won){
   document.getElementById("share-section").style.display="block";
   const lines=guesses.map(char=>COLS.map(key=>EMOJI_RESULT[compare(char,key)]).join(""));
   const result=won?`${guesses.length}/${MAX}`:`X/${MAX}`;
-  const text=`JoJo-dle ${todayStr} — ${result}\n\n${lines.join("\n")}\n\n[your URL here]`;
+  const text=`JoJo-dle ${todayStr} — ${result}\n\n${lines.join("\n")}\n\nhttps://67chotiphonlit-droid.github.io/HerosFIVE/`;
   document.getElementById("share-text").value=text;
 }
 document.getElementById("copy-btn").addEventListener("click",()=>{
