@@ -65,9 +65,12 @@ main{max-width:960px;margin:0 auto;padding:1.25rem 2rem 4rem}
 #guess-btn:active{transform:scale(.97)}
 #guess-btn:disabled{opacity:.4;cursor:default}
 
-#dropdown{position:absolute;top:calc(100% + 4px);left:0;right:90px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;max-height:240px;overflow-y:auto;display:none;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-.dd-item{padding:10px 14px;cursor:pointer;font-size:13px;color:var(--text);display:flex;flex-direction:column;gap:2px}
+#dropdown{position:absolute;top:calc(100% + 4px);left:0;right:90px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;max-height:280px;overflow-y:auto;display:none;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.dd-item{padding:8px 12px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px}
 .dd-item:hover,.dd-item.selected{background:rgba(212,160,23,.15);color:var(--gold)}
+.dd-thumb{width:40px;height:40px;border-radius:6px;object-fit:cover;background:var(--surface);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden}
+.dd-thumb img{width:100%;height:100%;object-fit:cover;border-radius:5px}
+.dd-info{display:flex;flex-direction:column;gap:2px}
 .dd-stand-label{font-size:11px;color:var(--muted);font-style:italic}
 .dd-item:hover .dd-stand-label,.dd-item.selected .dd-stand-label{color:rgba(212,160,23,.7)}
 
@@ -184,46 +187,46 @@ footer{text-align:center;padding:2rem;font-size:12px;color:var(--muted);border-t
 <script>
 // Stand range types: Close-Range, Long-Range, Remote, Automatic, Bound, Colony, Integrated, None
 const CHARS=[
-  {name:"Jonathan Joestar",part:1,stand:false,standName:null,standType:"None",nationality:"British",role:"Protagonist",hair:"Brown",img:"https://upload.wikimedia.org/wikipedia/en/3/38/Jonathan_Joestar_anime.png",emoji:"🎩"},
-  {name:"Robert E.O. Speedwagon",part:1,stand:false,standName:null,standType:"None",nationality:"British",role:"Ally",hair:"Blond",img:null,emoji:"🎩"},
-  {name:"Dio Brando",part:1,stand:true,standName:"The World",standType:"Close-Range",nationality:"British",role:"Villain",hair:"Blond",img:"https://upload.wikimedia.org/wikipedia/en/7/75/DIO_anime.png",emoji:"🧛"},
-  {name:"Will A. Zeppeli",part:1,stand:false,standName:null,standType:"None",nationality:"Italian",role:"Ally",hair:"Brown",img:null,emoji:"🎩"},
-  {name:"Erina Pendleton",part:1,stand:false,standName:null,standType:"None",nationality:"British",role:"Ally",hair:"Brown",img:null,emoji:"💐"},
-  {name:"Joseph Joestar",part:2,stand:true,standName:"Hermit Purple",standType:"Close-Range",nationality:"British",role:"Protagonist",hair:"Brown",img:"https://upload.wikimedia.org/wikipedia/en/5/52/Joseph_Joestar_anime.png",emoji:"🔮"},
-  {name:"Caesar Anthonio Zeppeli",part:2,stand:false,standName:null,standType:"None",nationality:"Italian",role:"Ally",hair:"Blond",img:null,emoji:"🫧"},
-  {name:"Lisa Lisa",part:2,stand:false,standName:null,standType:"None",nationality:"American",role:"Ally",hair:"Black",img:null,emoji:"🌹"},
-  {name:"Kars",part:2,stand:false,standName:null,standType:"None",nationality:"Other",role:"Villain",hair:"Black",img:null,emoji:"🌙"},
-  {name:"Wamuu",part:2,stand:false,standName:null,standType:"None",nationality:"Other",role:"Villain",hair:"White",img:null,emoji:"💨"},
-  {name:"Jotaro Kujo",part:3,stand:true,standName:"Star Platinum",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:"https://upload.wikimedia.org/wikipedia/en/1/12/Jotaro_Kujo_anime.png",emoji:"⭐"},
-  {name:"Noriaki Kakyoin",part:3,stand:true,standName:"Hierophant Green",standType:"Long-Range",nationality:"Japanese",role:"Ally",hair:"Red",img:null,emoji:"🕸️"},
-  {name:"Jean Pierre Polnareff",part:3,stand:true,standName:"Silver Chariot",standType:"Close-Range",nationality:"French",role:"Ally",hair:"Silver",img:null,emoji:"⚔️"},
-  {name:"Muhammad Avdol",part:3,stand:true,standName:"Magician's Red",standType:"Close-Range",nationality:"Egyptian",role:"Ally",hair:"Black",img:null,emoji:"🔥"},
-  {name:"Iggy",part:3,stand:true,standName:"The Fool",standType:"Close-Range",nationality:"American",role:"Ally",hair:"Black",img:null,emoji:"🐶"},
-  {name:"DIO",part:3,stand:true,standName:"The World",standType:"Close-Range",nationality:"British",role:"Villain",hair:"Blond",img:"https://upload.wikimedia.org/wikipedia/en/7/75/DIO_anime.png",emoji:"🧛"},
-  {name:"Josuke Higashikata",part:4,stand:true,standName:"Crazy Diamond",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:"https://upload.wikimedia.org/wikipedia/en/a/a3/Josuke_Higashikata_anime.png",emoji:"💎"},
-  {name:"Koichi Hirose",part:4,stand:true,standName:"Echoes",standType:"Close-Range",nationality:"Japanese",role:"Ally",hair:"Brown",img:null,emoji:"🥚"},
-  {name:"Okuyasu Nijimura",part:4,stand:true,standName:"The Hand",standType:"Close-Range",nationality:"Japanese",role:"Ally",hair:"Black",img:null,emoji:"✋"},
-  {name:"Rohan Kishibe",part:4,stand:true,standName:"Heaven's Door",standType:"Close-Range",nationality:"Japanese",role:"Neutral",hair:"Black",img:null,emoji:"📖"},
-  {name:"Yoshikage Kira",part:4,stand:true,standName:"Killer Queen",standType:"Close-Range",nationality:"Japanese",role:"Villain",hair:"Blond",img:null,emoji:"💣"},
-  {name:"Giorno Giovanna",part:5,stand:true,standName:"Gold Experience",standType:"Close-Range",nationality:"Italian",role:"Protagonist",hair:"Blond",img:"https://upload.wikimedia.org/wikipedia/en/3/33/Giorno_Giovanna_anime.png",emoji:"🌿"},
-  {name:"Bruno Bucciarati",part:5,stand:true,standName:"Sticky Fingers",standType:"Close-Range",nationality:"Italian",role:"Ally",hair:"Black",img:null,emoji:"🤐"},
-  {name:"Guido Mista",part:5,stand:true,standName:"Sex Pistols",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Black",img:null,emoji:"🔫"},
-  {name:"Narancia Ghirga",part:5,stand:true,standName:"Aerosmith",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Black",img:null,emoji:"✈️"},
-  {name:"Pannacotta Fugo",part:5,stand:true,standName:"Purple Haze",standType:"Close-Range",nationality:"Italian",role:"Ally",hair:"Blond",img:null,emoji:"☣️"},
-  {name:"Trish Una",part:5,stand:true,standName:"Spice Girl",standType:"Close-Range",nationality:"Italian",role:"Ally",hair:"Pink",img:null,emoji:"💅"},
-  {name:"Diavolo",part:5,stand:true,standName:"King Crimson",standType:"Close-Range",nationality:"Italian",role:"Villain",hair:"Pink",img:null,emoji:"👁️"},
-  {name:"Jolyne Cujoh",part:6,stand:true,standName:"Stone Free",standType:"Close-Range",nationality:"American",role:"Protagonist",hair:"Green",img:"https://upload.wikimedia.org/wikipedia/en/b/b6/Jolyne_Cujoh_anime.png",emoji:"🧵"},
-  {name:"Hermes Costello",part:6,stand:true,standName:"Kiss",standType:"Close-Range",nationality:"American",role:"Ally",hair:"Black",img:null,emoji:"💋"},
-  {name:"Foo Fighters",part:6,stand:true,standName:"Foo Fighters",standType:"Colony",nationality:"Other",role:"Ally",hair:"Green",img:null,emoji:"🦠"},
-  {name:"Enrico Pucci",part:6,stand:true,standName:"Whitesnake",standType:"Close-Range",nationality:"American",role:"Villain",hair:"Black",img:null,emoji:"🌀"},
-  {name:"Johnny Joestar",part:7,stand:true,standName:"Tusk",standType:"Long-Range",nationality:"American",role:"Protagonist",hair:"Blond",img:null,emoji:"🌀"},
-  {name:"Gyro Zeppeli",part:7,stand:true,standName:"Ball Breaker",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Blond",img:null,emoji:"🎱"},
-  {name:"Diego Brando",part:7,stand:true,standName:"Scary Monsters",standType:"Bound",nationality:"British",role:"Villain",hair:"Blond",img:null,emoji:"🦕"},
-  {name:"Funny Valentine",part:7,stand:true,standName:"Dirty Deeds Done Dirt Cheap",standType:"Close-Range",nationality:"American",role:"Villain",hair:"Blond",img:null,emoji:"🇺🇸"},
-  {name:"Gappy (Josuke)",part:8,stand:true,standName:"Soft & Wet",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:null,emoji:"🫧"},
-  {name:"Yasuho Hirose",part:8,stand:true,standName:"Paisley Park",standType:"Remote",nationality:"Japanese",role:"Ally",hair:"Pink",img:null,emoji:"🌸"},
-  {name:"Norisuke Higashikata IV",part:8,stand:true,standName:"King Nothing",standType:"Close-Range",nationality:"Japanese",role:"Ally",hair:"Brown",img:null,emoji:"🔍"},
-  {name:"Tooru",part:8,stand:true,standName:"Wonder of U",standType:"Automatic",nationality:"Japanese",role:"Villain",hair:"Silver",img:null,emoji:"♾️"},
+  {name:"Jonathan Joestar",part:1,stand:false,standName:null,standType:"None",nationality:"British",role:"Protagonist",hair:"Brown",img:"https://static.wikia.nocookie.net/jjba/images/1/18/Jonathan_Joestar_Infobox_Manga.png",emoji:"🎩"},
+  {name:"Robert E.O. Speedwagon",part:1,stand:false,standName:null,standType:"None",nationality:"British",role:"Ally",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/a/a1/Speedwagon_Infobox_Manga.png",emoji:"🎩"},
+  {name:"Dio Brando",part:1,stand:true,standName:"The World",standType:"Close-Range",nationality:"British",role:"Villain",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/2/2f/Dio_Brando_Infobox_Manga.png",emoji:"🧛"},
+  {name:"Will A. Zeppeli",part:1,stand:false,standName:null,standType:"None",nationality:"Italian",role:"Ally",hair:"Brown",img:"https://static.wikia.nocookie.net/jjba/images/3/32/Will_Anthonio_Zeppeli_Infobox_Manga.png",emoji:"🎩"},
+  {name:"Erina Pendleton",part:1,stand:false,standName:null,standType:"None",nationality:"British",role:"Ally",hair:"Brown",img:"https://static.wikia.nocookie.net/jjba/images/e/e0/Erina_Infobox_Manga.png",emoji:"💐"},
+  {name:"Joseph Joestar",part:2,stand:true,standName:"Hermit Purple",standType:"Close-Range",nationality:"British",role:"Protagonist",hair:"Brown",img:"https://static.wikia.nocookie.net/jjba/images/6/60/Joseph_Joestar_Infobox_Manga.png",emoji:"🔮"},
+  {name:"Caesar Anthonio Zeppeli",part:2,stand:false,standName:null,standType:"None",nationality:"Italian",role:"Ally",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/5/52/Caesar_Infobox_Manga.png",emoji:"🫧"},
+  {name:"Lisa Lisa",part:2,stand:false,standName:null,standType:"None",nationality:"American",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/b/b3/Lisa_Lisa_Infobox_Manga.png",emoji:"🌹"},
+  {name:"Kars",part:2,stand:false,standName:null,standType:"None",nationality:"Other",role:"Villain",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/f/f9/Kars_Infobox_Manga.png",emoji:"🌙"},
+  {name:"Wamuu",part:2,stand:false,standName:null,standType:"None",nationality:"Other",role:"Villain",hair:"White",img:"https://static.wikia.nocookie.net/jjba/images/1/10/Wamuu_Infobox_Manga.png",emoji:"💨"},
+  {name:"Jotaro Kujo",part:3,stand:true,standName:"Star Platinum",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/d/d9/Jotaro_Kujo_Infobox_Manga.png",emoji:"⭐"},
+  {name:"Noriaki Kakyoin",part:3,stand:true,standName:"Hierophant Green",standType:"Long-Range",nationality:"Japanese",role:"Ally",hair:"Red",img:"https://static.wikia.nocookie.net/jjba/images/1/18/Kakyoin_Infobox_Manga.png",emoji:"🕸️"},
+  {name:"Jean Pierre Polnareff",part:3,stand:true,standName:"Silver Chariot",standType:"Close-Range",nationality:"French",role:"Ally",hair:"Silver",img:"https://static.wikia.nocookie.net/jjba/images/0/05/Polnareff_Infobox_Manga.png",emoji:"⚔️"},
+  {name:"Muhammad Avdol",part:3,stand:true,standName:"Magician's Red",standType:"Close-Range",nationality:"Egyptian",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/8/8c/Avdol_Infobox_Manga.png",emoji:"🔥"},
+  {name:"Iggy",part:3,stand:true,standName:"The Fool",standType:"Close-Range",nationality:"American",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/5/52/Iggy_Infobox_Manga.png",emoji:"🐶"},
+  {name:"DIO",part:3,stand:true,standName:"The World",standType:"Close-Range",nationality:"British",role:"Villain",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/9/9d/DIO_Infobox_Manga.png",emoji:"🧛"},
+  {name:"Josuke Higashikata",part:4,stand:true,standName:"Crazy Diamond",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/5/5e/Josuke_Higashikata_Infobox_Manga.png",emoji:"💎"},
+  {name:"Koichi Hirose",part:4,stand:true,standName:"Echoes",standType:"Close-Range",nationality:"Japanese",role:"Ally",hair:"Brown",img:"https://static.wikia.nocookie.net/jjba/images/c/c5/Koichi_Hirose_Infobox_Manga.png",emoji:"🥚"},
+  {name:"Okuyasu Nijimura",part:4,stand:true,standName:"The Hand",standType:"Close-Range",nationality:"Japanese",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/e/e5/Okuyasu_Infobox_Manga.png",emoji:"✋"},
+  {name:"Rohan Kishibe",part:4,stand:true,standName:"Heaven's Door",standType:"Close-Range",nationality:"Japanese",role:"Neutral",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/9/98/Rohan_Kishibe_Infobox_Manga.png",emoji:"📖"},
+  {name:"Yoshikage Kira",part:4,stand:true,standName:"Killer Queen",standType:"Close-Range",nationality:"Japanese",role:"Villain",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/4/4e/Yoshikage_Kira_Infobox_Manga.png",emoji:"💣"},
+  {name:"Giorno Giovanna",part:5,stand:true,standName:"Gold Experience",standType:"Close-Range",nationality:"Italian",role:"Protagonist",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/5/5f/Giorno_Giovanna_Infobox_Manga.png",emoji:"🌿"},
+  {name:"Bruno Bucciarati",part:5,stand:true,standName:"Sticky Fingers",standType:"Close-Range",nationality:"Italian",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/4/43/Bucciarati_Infobox_Manga.png",emoji:"🤐"},
+  {name:"Guido Mista",part:5,stand:true,standName:"Sex Pistols",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/7/7a/Mista_Infobox_Manga.png",emoji:"🔫"},
+  {name:"Narancia Ghirga",part:5,stand:true,standName:"Aerosmith",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/f/f5/Narancia_Infobox_Manga.png",emoji:"✈️"},
+  {name:"Pannacotta Fugo",part:5,stand:true,standName:"Purple Haze",standType:"Close-Range",nationality:"Italian",role:"Ally",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/1/17/Fugo_Infobox_Manga.png",emoji:"☣️"},
+  {name:"Trish Una",part:5,stand:true,standName:"Spice Girl",standType:"Close-Range",nationality:"Italian",role:"Ally",hair:"Pink",img:"https://static.wikia.nocookie.net/jjba/images/6/6e/Trish_Una_Infobox_Manga.png",emoji:"💅"},
+  {name:"Diavolo",part:5,stand:true,standName:"King Crimson",standType:"Close-Range",nationality:"Italian",role:"Villain",hair:"Pink",img:"https://static.wikia.nocookie.net/jjba/images/8/86/Diavolo_Infobox_Manga.png",emoji:"👁️"},
+  {name:"Jolyne Cujoh",part:6,stand:true,standName:"Stone Free",standType:"Close-Range",nationality:"American",role:"Protagonist",hair:"Green",img:"https://static.wikia.nocookie.net/jjba/images/6/62/Jolyne_Cujoh_Infobox_Manga.png",emoji:"🧵"},
+  {name:"Hermes Costello",part:6,stand:true,standName:"Kiss",standType:"Close-Range",nationality:"American",role:"Ally",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/5/5d/Hermes_Infobox_Manga.png",emoji:"💋"},
+  {name:"Foo Fighters",part:6,stand:true,standName:"Foo Fighters",standType:"Colony",nationality:"Other",role:"Ally",hair:"Green",img:"https://static.wikia.nocookie.net/jjba/images/3/38/Foo_Fighters_Infobox_Manga.png",emoji:"🦠"},
+  {name:"Enrico Pucci",part:6,stand:true,standName:"Whitesnake",standType:"Close-Range",nationality:"American",role:"Villain",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/4/43/Enrico_Pucci_Infobox_Manga.png",emoji:"🌀"},
+  {name:"Johnny Joestar",part:7,stand:true,standName:"Tusk",standType:"Long-Range",nationality:"American",role:"Protagonist",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/4/48/Johnny_Joestar_Infobox_Manga.png",emoji:"🌀"},
+  {name:"Gyro Zeppeli",part:7,stand:true,standName:"Ball Breaker",standType:"Long-Range",nationality:"Italian",role:"Ally",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/6/6d/Gyro_Zeppeli_Infobox_Manga.png",emoji:"🎱"},
+  {name:"Diego Brando",part:7,stand:true,standName:"Scary Monsters",standType:"Bound",nationality:"British",role:"Villain",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/0/0e/Diego_Brando_Infobox_Manga.png",emoji:"🦕"},
+  {name:"Funny Valentine",part:7,stand:true,standName:"Dirty Deeds Done Dirt Cheap",standType:"Close-Range",nationality:"American",role:"Villain",hair:"Blond",img:"https://static.wikia.nocookie.net/jjba/images/d/d8/Funny_Valentine_Infobox_Manga.png",emoji:"🇺🇸"},
+  {name:"Gappy (Josuke)",part:8,stand:true,standName:"Soft & Wet",standType:"Close-Range",nationality:"Japanese",role:"Protagonist",hair:"Black",img:"https://static.wikia.nocookie.net/jjba/images/2/2e/Josuke8_Infobox_Manga.png",emoji:"🫧"},
+  {name:"Yasuho Hirose",part:8,stand:true,standName:"Paisley Park",standType:"Remote",nationality:"Japanese",role:"Ally",hair:"Pink",img:"https://static.wikia.nocookie.net/jjba/images/7/74/Yasuho_Hirose_Infobox_Manga.png",emoji:"🌸"},
+  {name:"Norisuke Higashikata IV",part:8,stand:true,standName:"King Nothing",standType:"Close-Range",nationality:"Japanese",role:"Ally",hair:"Brown",img:"https://static.wikia.nocookie.net/jjba/images/8/86/Norisuke_IV_Infobox_Manga.png",emoji:"🔍"},
+  {name:"Tooru",part:8,stand:true,standName:"Wonder of U",standType:"Automatic",nationality:"Japanese",role:"Villain",hair:"Silver",img:"https://static.wikia.nocookie.net/jjba/images/9/9e/Tooru_Infobox_Manga.png",emoji:"♾️"},
 ];
 
 const COLS=["part","stand","standType","nationality","role","hair"];
@@ -286,8 +289,11 @@ searchEl.addEventListener("input",()=>{
   });
   if(!hits.length){dropdown.style.display="none";return;}
   dropdown.innerHTML=hits.slice(0,10).map((c,i)=>{
-    const standLabel=c.stand?`<span class="dd-stand-label">Stand: ${c.standName}</span>`:`<span class="dd-stand-label">No Stand</span>`;
-    return`<div class="dd-item" data-name="${c.name}" data-i="${i}">${c.name}${standLabel}</div>`;
+    const standLabel=c.stand?`Stand: ${c.standName}`:`No Stand`;
+    const thumb=c.img
+      ?`<div class="dd-thumb"><img src="${c.img}" alt="${c.name}" onerror="this.parentElement.textContent='${c.emoji}'"/></div>`
+      :`<div class="dd-thumb">${c.emoji}</div>`;
+    return`<div class="dd-item" data-name="${c.name}" data-i="${i}">${thumb}<div class="dd-info"><span>${c.name}</span><span class="dd-stand-label">${standLabel}</span></div></div>`;
   }).join("");
   dropdown.style.display="block";
   dropdown.querySelectorAll(".dd-item").forEach(el=>{
@@ -383,7 +389,7 @@ function revealShare(won){
   document.getElementById("share-section").style.display="block";
   const lines=guesses.map(char=>COLS.map(key=>EMOJI_RESULT[compare(char,key)]).join(""));
   const result=won?`${guesses.length}/${MAX}`:`X/${MAX}`;
-  const text=`JoJo-dle ${todayStr} — ${result}\n\n${lines.join("\n")}\n\n[your URL here]`;
+  const text=`JoJo-dle ${todayStr} — ${result}\n\n${lines.join("\n")}\n\nhttps://67chotiphonlit-droid.github.io/JOJOwordle/`;
   document.getElementById("share-text").value=text;
 }
 document.getElementById("copy-btn").addEventListener("click",()=>{
